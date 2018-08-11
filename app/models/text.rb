@@ -8,7 +8,7 @@ class Text < ApplicationRecord
   attr_reader :id, :top_text, :bottom_text
 
   # connect to postgres
-  DB = PG.connect(host: "localhost", port: 5432, dbtop_text: 'mymemes')
+  DB = PG.connect(host: "localhost", port: 5432, dbname: 'mymemes_development')
 
   # initialize options hash
   def initialize(opts = {})

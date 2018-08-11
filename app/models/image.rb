@@ -8,7 +8,7 @@ class Image < ApplicationRecord
     attr_reader :id, :img
 
     # connect to postgres
-    DB = PG.connect(host: "localhost", port: 5432, dbname: 'mymemes')
+    DB = PG.connect(host: "localhost", port: 5432, dbname: 'mymemes_development')
 
     # initialize options hash
     def initialize(opts = {})
