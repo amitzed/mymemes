@@ -1,4 +1,4 @@
-class Image < ApplicationRecord
+class Im
 
 # ==================================================
     #                      SET UP
@@ -12,10 +12,13 @@ class Image < ApplicationRecord
 
     # initialize options hash
     def initialize(opts = {})
-        @id = opts["id"].to_i
         @img = opts["img"]
-        if opts["pic"]
-          @pic = opts["pic"]
+        @ = opts[""]
+        @ = opts[""]
+        @ = opts[""].to_i
+        #if text is in opts hash, show it
+        if opts["text"]
+          @text_id = opts["text"]
         end
     end
 
@@ -28,41 +31,33 @@ class Image < ApplicationRecord
       results = DB.exec(
           <<-SQL
               SELECT
-                images.*,
-                texts.id AS text_id,
-                texts.top_text,
-                texts.bottom_text
+                  images.*,
+                  texts.top_text,
+                  texts.bottom_text
               FROM images
               LEFT JOIN texts
-              ON images.id = texts.id
+                  ON images.text_id = texts.id
           SQL
       )
-      images = []
-      current_id = nil
-      results.each do |result|
-          if result["id"] != current_id
-              current_id = result["id"]
-              images.push(
-                  Image.new({
-                      "id" => result["id"],
-                      "img" => result["img"],
-                      "pic" => []
-                  })
-              )
-          end
-          if result["text_id"]
-            p result
-              new_text = Text.new(
+      return results.map do |result|
+            if result["text_id"]
+                text = Text.new(
+                    {
+                        "id" => result["text_id"],
+                        "top_text" => result["top_text"],
+                        "bottom_text" => result["bottom_text"]
+                    }
+                )
+            else
+                text = nil
+            end
+            Image.new(
                 {
-                  "id" => result["person_id"],
-                  "top_text" => result["top_text"],
-                  "bottom_text" => result["bottom_text"],
+                    "id" => result["id"],
+                    "img" => result["img"],
                 }
             )
-              images.last.pic.push(new_text)
-          end
-      end
-      return images
+        end
     end
 
     # get one by id
@@ -71,63 +66,81 @@ class Image < ApplicationRecord
             <<-SQL
                 SELECT
                     images.*,
-                    texts.id AS text_id,
                     texts.top_text,
-                    texts.bottom_text
+                    texts.bottom_text,
                 FROM images
                 LEFT JOIN texts
-                ON images.id = texts.id
+                    ON images.text_id = texts.id
                 WHERE images.id=#{id};
             SQL
         )
-        pic = []
-        results.each do |result|
-            if result["text_id"]
-                pic.push Text.new(
-                  {
-                    "id" => result["id"],
+        result = results.first
+        if result["text_id"]
+            text = Text.new(
+                {
+                    "id" => result["text_id"],
                     "top_text" => result["top_text"],
-                    "bottom_text" => result["bottom_text"],
-                  }
-              )
-            end
+                    "bottom_text" => result["bottom_text"]
+                }
+            )
+        else
+            text = nil
         end
-        return Image.new({
-            "id" => results.first["id"],
-            "img" => results.first["img"],
-            "pic" => pic
-        })
+        image =  Image.new(
+            {
+              "id" => result["id"],
+              "img" => result["img"],
+            }
+        )
+        return image
     end
 
     # create one
     def self.create(opts={})
-        results = DB.exec(
-            <<-SQL
-                INSERT INTO images (img)
-                VALUES ( '#{opts["img"]}' )
-                RETURNING id, img;
-            SQL
-        )
-        return Image.new(results.first)
+      results = DB.exec(
+          <<-SQL
+              INSERT INTO images (img, text_id)
+              VALUES (
+                 '#{opts["img"]}',
+                #{opts["text_id"] ? opts["text_id"] : "NULL"} )
+              RETURNING id, img, text_id;
+          SQL
+      )
+      return Image.new(results.first)
     end
 
-    # delete one by id
+    # delete one (by id)
     def self.delete(id)
-        results = DB.exec("DELETE FROM images WHERE id=#{id};")
-        return { deleted: true }
+      results = DB.exec("DELETE FROM images WHERE id=#{id};")
+      return { deleted: true }
     end
 
-    # update one by id
+    # update one (by id)
     def self.update(id, opts={})
-        results = DB.exec(
-            <<-SQL
-                UPDATE images
-                SET img='#{opts["img"]}'
-                WHERE id=#{id}
-                RETURNING id, img;
-            SQL
-        )
-        return Image.new(results.first)
+      results = DB.exec(
+          <<-SQL
+              UPDATE images
+              SET
+               img='#{opts["img"]}',
+               text_id=#{opts["text_id"] ? opts["text_id"] : "NULL"}
+              WHERE id=#{id}
+              RETURNING id, img, text_id;
+          SQL
+      )
+      return Image.new(results.first)
     end
+
+    # update text image belongs to
+    def self.setText(image_id, text)
+    results = DB.exec(
+        <<-SQL
+            UPDATE images
+            SET text_id = #{text.id}
+            WHERE id = #{image_id}
+            RETURNING id;
+        SQL
+    )
+    return Image.new(results.first)
+  end
 
 end

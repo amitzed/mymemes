@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   #             ROUTES FOR TEXTS MODEL
   # =================================================
   get '/texts', to: 'texts#index'
+  match '*path', to: 'texts#index', via: :all
   get '/texts/:id', to: 'texts#show'
   # create just texts, no image
   post '/texts', to: 'texts#createOne'
