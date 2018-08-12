@@ -1,4 +1,4 @@
-class Im
+class Image
 
 # ==================================================
     #                      SET UP
@@ -12,10 +12,8 @@ class Im
 
     # initialize options hash
     def initialize(opts = {})
+        @id = opts["id"].to_i
         @img = opts["img"]
-        @ = opts[""]
-        @ = opts[""]
-        @ = opts[""].to_i
         #if text is in opts hash, show it
         if opts["text"]
           @text_id = opts["text"]
@@ -67,7 +65,7 @@ class Im
                 SELECT
                     images.*,
                     texts.top_text,
-                    texts.bottom_text,
+                    texts.bottom_text
                 FROM images
                 LEFT JOIN texts
                     ON images.text_id = texts.id
@@ -137,7 +135,7 @@ class Im
             UPDATE images
             SET text_id = #{text.id}
             WHERE id = #{image_id}
-            RETURNING id;
+            RETURNING id, img;
         SQL
     )
     return Image.new(results.first)

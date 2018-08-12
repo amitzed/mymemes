@@ -7,10 +7,10 @@ class ImagesList extends React.Component {
           return (
             <tr>
               <td onClick={()=> { this.props.getImage(image); this.props.toggleState('imagesListIsVisible', 'imageIsVisible')}}>
-                <img src={image.img} />
+                <img src={image.img} alt={image.text_id} />
               </td>
               <td className='image' onClick={()=> { this.props.getImage(image); this.props.toggleState('imagesListIsVisible', 'imageIsVisible')}}>
-                <h3> {image.img} </h3>
+                <h3> {image.top_text} </h3>
               </td>
               <td>
                   <button className='button is-warning is-small'>Edit</button>

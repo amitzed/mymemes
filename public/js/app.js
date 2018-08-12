@@ -4,8 +4,8 @@ class App extends React.Component {
       <div className='section'>
         <h1 className='title'> myMeme </h1>
         <div className='columns'>
-        <Texts />
         <Images />
+        <Texts />
         </div>
       </div>
     )

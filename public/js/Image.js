@@ -6,13 +6,13 @@ class Image extends React.Component {
         <div className='tile is-ancestor'>
           <div className='tile is-2'>
             <div>
-              <img src={this.props.image.img} />
+              <img src={this.props.image.img} alt={this.props.image.text_id} />
             </div>
           </div>
           <div className='tile is-2'></div>
           <div className='tile'>
             <div>
-              <h3 className='tile is-child box'><span>Image:</span> {this.props.image.img} </h3>
+              <h3 className='tile is-child box'><span>Top Text:</span> {this.props.image.text_id} </h3>
 
             </div>
             <div className='tile'>
@@ -22,7 +22,7 @@ class Image extends React.Component {
           </div>
           </div>
           </div>
-          <ImageForm image={this.props.image}   handleSubmit={this.props.handleSubmit}/>
+          <PersonForm image={this.props.image}   handleSubmit={this.props.handleSubmit}/>
         </div>
       )
   }

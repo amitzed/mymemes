@@ -39,7 +39,7 @@ class Images extends React.Component {
   handleCreate (image) {
     const updatedImages = this.state.images
     updatedImages.unshift(image)
-    this.setState({images: updatedImage})
+    this.setState({images: updatedImages})
   }
 
   handleCreateSubmit (image) {

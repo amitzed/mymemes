@@ -6,25 +6,28 @@ class Text extends React.Component {
         <div className='tile is-ancestor'>
           <div className='tile is-2'>
             <div>
-              <img src={this.props.text.top_text} alt={this.props.text.bottom_text} />
+              <h3> {this.props.text.top_text} </h3>
             </div>
           </div>
           <div className='tile is-2'></div>
           <div className='tile'>
             <div>
-              <h3 className='tile is-child box'><span>Top Text:</span> {this.props.text.top_text} </h3>
-              <p className='tile is-child box'><span>Bottom Text:</span> {this.props.text.bottom_text} </p>
+              <h3 className='tile is-child box'><span>Text Name:</span>
+              {this.props.text.top_text} </h3>
+              <p className='tile is-child box'><span>Industry:</span>
+              {this.props.text.bottom_text} </p>
 
-            </div>
-            <div className='tile'>
-            </div>
+          </div>
           <div className='tile'>
-            <button className='button is-warning' onClick={()=> this.props.toggleState('textsListIsVisible', 'textIsVisible')}>See Full List</button>
           </div>
+          <div className='tile'>
+            <button className='button is-warning' onClick={()=>
+            this.props.toggleState('textsListIsVisible', 'textIsVisible')}>See Full List</button>
           </div>
-          </div>
-          <TextForm text={this.props.text}   handleSubmit={this.props.handleSubmit}/>
         </div>
-      )
+      </div>
+      <TextForm />
+    </div>
+    )
   }
 }

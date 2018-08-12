@@ -28,7 +28,8 @@ class ImageForm extends React.Component {
     return (
       <div className='field'>
         <form onSubmit={this.handleSubmit}>
-          <label className='label' for='img'>Image</label>
+
+          <label className='label 'for='img'>Image</label>
           <div className='control'>
             <input
               className='input'
@@ -42,6 +43,7 @@ class ImageForm extends React.Component {
           <div className='control'>
             <input className='button is-primary' type='submit' />
           </div>
+
         </form>
           <button className="button is-link" onClick={()=> this.props.toggleState('imagesListIsVisible', 'addImageIsVisible')}>Cancel</button>
       </div>
