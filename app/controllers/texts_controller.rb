@@ -1,5 +1,5 @@
 class TextsController < ApplicationController
-    skip_before_action :verify_authenticity_token, raise: false
+    skip_before_action :verify_authenticity_token
 
     # get index (all)
     def index
