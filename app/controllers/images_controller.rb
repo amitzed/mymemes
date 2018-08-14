@@ -16,9 +16,9 @@ class ImagesController < ApplicationController
     render json: Image.create(params["image"])
   end
 
-  # create a image for a company
-  def createForCompany
-    #takes the :id for the company and converts it to company_id for image
+  # create a image for a text
+  def createForText
+    #takes the :id for the text and converts it to text_id for image
     if params["id"]
         params["image"]["text_id"] = params["id"].to_i
     end

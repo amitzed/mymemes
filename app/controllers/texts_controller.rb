@@ -1,5 +1,4 @@
 class TextsController < ApplicationController
-
     skip_before_action :verify_authenticity_token, raise: false
 
     # get index (all)
@@ -21,7 +20,7 @@ class TextsController < ApplicationController
     def createWithStaff
       created_location = Text.create(params["text"])
       if params["id"]
-        updated_person = Person.setText(params["id"], created_location)
+        updated_image = Image.setText(params["id"], created_location)
       end
       render json: created_location
     end
