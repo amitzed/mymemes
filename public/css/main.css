@@ -1,3 +1,7 @@
+body {
+  background-color: steelblue;
+}
+
 tr:nth-child(even){
   background-color: hsl(0, 0%, 96%);
 }
